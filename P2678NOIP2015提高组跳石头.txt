@@ -1,0 +1,64 @@
+和上一题奶牛没什么不同。
+奶牛是给隔间数量，石头题是给去掉石头的数量，只要做个减法，就可以把条件等价为一样的了。
+
+#include<iostream>
+#include<algorithm>
+#include<cmath>
+using namespace std;
+int c,n,middle;
+int a[1000000+1];
+int check(int b)
+{
+	int lengh=a[1],l=n-1,c0=c-1;
+	for(int j=2;j<=n;j++)
+	{
+		if(abs(a[j]-lengh)<b)
+		{
+			l--;
+			if((l-c0)<0)
+			{
+				return 0;
+			}
+		}
+		else
+		{
+			lengh=a[j];
+			c0--,l--;
+			if(c0==0)
+			{
+				return 1;
+			}
+		}
+	}
+}
+int main()
+{
+	int distant;
+	cin>>distant>>n>>c;
+	n=n+2;
+	c=n-c;
+	a[1]=0,a[n]=distant;
+	for(int i=2;i<=n-1;i++)
+	{
+		cin>>a[i];
+	}
+	int l=a[1],r=a[n],min_need=0;
+	while(l<=r)
+	{
+	  middle=(l+r)/2;
+	  if(check(middle)==1)
+	  {
+		  if(min_need<middle)
+	  	{
+	  	    min_need=middle;	
+		}
+		l=middle+1;
+	  }
+	  else
+	  {
+	  	r=middle-1;
+	  }
+	}
+	cout<<min_need;
+	return 0;
+ } 

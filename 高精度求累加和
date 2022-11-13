@@ -1,0 +1,93 @@
+一开始没想到等差数列求和，写了一个O(n)的循环高精度累加，然后超时。
+看了群里的聊天才想起来有个O（1）的公式法，那么问题就转化为了实现高精度加法，乘法和除法。
+高精度加法用小学就学过的竖式乘法就可以实现了（貌似还可以用傅里叶变化加快速度，但是我不会）
+高精度除法一开始想了很久，感觉主要难度在不知道怎么处理余数，最后退而其次没有实现高精度除高精度，而是实现高精度除低精度
+
+#include<iostream>
+#include<cstring>
+#include<cstdio>
+#include<cmath>
+using namespace std;
+int adder(char a[],int B[],int lenb,int c[])//加法 
+{
+    int a1[100];
+    memset(a1,0,sizeof(a1));
+    int lena=strlen(a);
+    int len=max(lena,lenb);
+    for(int j=0,i=strlen(a)-1;i<strlen(a);i--,j++)
+    {
+    	a1[j]=a[i]-'0';
+    }
+	c[0]=0;
+    for(int i=0;i<len;i++)
+    {
+    	c[i]+=(a1[i]+B[i]);
+    	c[i+1]=c[i]/10;
+    	c[i]=c[i]%10;
+	}
+	if(c[len])//去除前面的零 
+	{
+		len++;
+	}
+	return len;
+}
+int time(char A[],char B[],int c[])
+{
+	int a[1005],b[10005];
+	memset(a,0,sizeof(a));
+	memset(b,0,sizeof(b));
+	for(int i=0,j=strlen(A)-1;i<=strlen(A)-1;i++,j--)
+	{
+		a[i]=A[j]-'0';
+	}
+	for(int i=0,j=strlen(B)-1;i<=strlen(B)-1;i++,j--)
+	{
+		b[i]=B[j]-'0';
+	}
+	int len=strlen(A)+strlen(B);
+	for(int i=0;i<len;i++)
+	{
+		c[i]=0;
+		for(int j=0;j<=i;j++)
+		{
+			c[i]+=(a[i-j]*b[j]);
+		}
+	}
+	while(!c[len-1]&&len>=0)//去除前面的零 
+	{
+		len--;
+	}
+	for(int i=0;i<len;i++)
+	{
+		c[i+1]+=(c[i]/10);
+		c[i]=c[i]%10;
+	}
+	if(c[len])
+	{
+		len++;
+	}
+	return len;
+ }
+void chufa(int a[],int b,int lena)
+{
+    int x=0,c[10005];
+    memset(c,0,sizeof(c));
+	for (int i=lena-1;i>=0;i--)                               //按位相除
+	{
+		c[i]=(x*10+a[i])/b;
+	    x=(x*10+a[i])%b;
+	}
+	int lenc=lena-1;
+    while (c[lenc]==0&&lenc>=0) lenc--; //去除前面的零                                     //删除前导0
+    for (int i=lenc;i>=0;i--) cout<<c[i];
+}
+int main()
+{
+    char A[1005];
+    int  B[1005],c[1005];
+    cin>>A;
+    int lenb=time(A,A,B);
+    int lenc=adder(A,B,lenb,c);
+	chufa(c,2,lenc);
+    return 0;
+}

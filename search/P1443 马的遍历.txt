@@ -1,0 +1,53 @@
+一道常规的bfs。
+由题目的性质可知第一次到达的时候就一定是步数最少的时候，所以可以用步数是否为-1来做为判断条件
+同时注意边界条件，不能超过地图，把处理后的数据再push进去
+
+#include<iostream>
+#include<queue>
+#include<string.h>
+using namespace std;
+struct map
+{
+	int x,y;
+} ;
+int walk[8][2]={{2,1},{1,2},{-1,2},{-2,1},{-2,-1},{-1,-2},{1,-2},{2,-1}};
+int main()
+{
+    queue<map>q;
+    int n,m;
+    cin>>n>>m;
+    int x0,y0;
+    cin>>x0>>y0;
+    int sum[n+1][m+1];
+    memset(sum,-1,sizeof(sum));
+    sum[x0][y0]=0;
+    map tmp={x0,y0};
+    q.push(tmp);
+    while(!q.empty())
+    {
+     map u=q.front();
+     int ux=u.x,uy=u.y;
+     q.pop();
+     for(int i=0;i<=7;i++)
+     {
+     	int x=ux+walk[i][0],y=uy+walk[i][1];
+     	int bushu;
+     	bushu=sum[ux][uy];
+     	if(x<1||x>n||y<1||y>m||sum[x][y]!=-1)
+     	{
+     		continue;
+		 }
+		 sum[x][y]=bushu+1;
+		 map r={x,y};
+		 q.push(r);
+	 }
+	}
+	for(int i=1;i<=n;i++,puts(""))
+	{
+		for(int j=1;j<=m;j++)
+		{
+			printf("%-5d ",sum[i][j]);
+		}
+	 } 
+    return 0;
+}

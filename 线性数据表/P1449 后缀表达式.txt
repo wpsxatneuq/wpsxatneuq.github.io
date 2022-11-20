@@ -1,0 +1,52 @@
+把所有数字都压入栈，只要读取到符号，就对前两个数字进行运算再压入栈。
+
+
+#include<iostream>
+using namespace std;
+int b[51];
+int main()
+{
+  char a;
+  long long n=0;
+  long long i=0;
+  while((a=getchar())!='@')
+  {
+  	if(a<='9'&&a>='0')
+  	{
+  		n=n*10;
+  		n+=(a-'0');
+	}
+	else if(a=='.')
+	{
+      i++;
+	  b[i]=n;
+      n=0;
+	}
+	else if(a=='+')
+	{
+		b[i-1]=b[i]+b[i-1];
+		b[i]=0;
+		i--;
+	}
+	else if(a=='-')
+	{
+		b[i-1]=b[i-1]-b[i];
+		b[i]=0;
+		i--;
+	}
+	else if(a=='*')
+	{
+		b[i-1]=b[i-1]*b[i];
+		b[i]=0;
+		i--;
+	}
+	else if(a=='/')
+	{
+		b[i-1]=b[i-1]/b[i];
+		b[i]=0;
+		i--;
+	}
+  }
+  cout<<b[i];
+  return 0;
+}

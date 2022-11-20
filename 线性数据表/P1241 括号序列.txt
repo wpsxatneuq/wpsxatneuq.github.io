@@ -1,0 +1,52 @@
+主要是用一个数组来记录是不是匹配的括号，不是匹配的括号就输出两个。
+
+
+#include <iostream>
+#include <algorithm>
+#include <string>
+using namespace std;
+int a[1005]={0}; // 标记
+int main()
+{
+    string s;
+    cin >> s;
+    for (int i=0; i<s.length(); i++) 
+	{
+        if (s[i] == ')') { // 找到了右括号
+            for (int j=i-1; j>=0; j--) 
+			{
+                if (s[j] == '('&&a[j] == 0) 
+				{ // 找到了没被匹配过的左括号且匹配成功
+                    a[i] = a[j] = 1;
+                    break;
+                }
+                else if (s[j] == '['&&a[j] == 0) 
+			    	break; // 找到了左括号但匹配失败
+            }
+            // 找不到左括号，不做任何操作
+        }
+        // 下面同理
+        else if (s[i] == ']') 
+		{
+            for (int j=i-1; j>=0; j--) 
+			{
+                if (s[j] == '[' &&a[j] == 0) 
+				{
+                    a[i] = a[j] = 1;
+                    break;
+                }
+                else if (s[j] == '(' &&a[j] == 0) break;
+            }
+        }
+    }
+    for (int i=0; i<s.length(); i++) 
+	{
+        if (a[i] == 0) 
+		{ // 没有匹配则成对输出
+            if (s[i] == '(' or s[i] == ')') cout << "()";
+            else cout << "[]";
+        }
+        else cout << s[i]; // 匹配成功则直接输出
+    }
+    return 0;
+}

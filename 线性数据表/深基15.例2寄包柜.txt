@@ -1,0 +1,28 @@
+这题主要是要用一个数据结构来建立一个二对一的映射关系，但是我真的不会手动实现，最后看了题解用了map函数来实现这个函数关系。
+
+
+#include<iostream>
+#include<map>
+using namespace std;
+map<pair<int,int>,int> p;
+int main()
+{
+  int n,m;
+  cin>>n>>m;
+  for(int i=1;i<=m;i++)
+  {
+  	int a,b,c,d;
+  	cin>>a;
+  	if(a==1)
+  	{
+		cin>>b>>c>>d;
+		p[{b,c}]=d;
+	}
+	else
+	{
+		cin>>b>>c;
+		cout<<p[{b,c}]<<endl;
+	}
+  }
+  return 0;
+}

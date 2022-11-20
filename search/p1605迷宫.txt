@@ -1,0 +1,48 @@
+用dfs。
+先得到一个待处理的数组（地图），然后输入并处理起始点（起点），调用递归函数，在函数中设置结束条件，递归条件，回溯操作。
+最后输出结果
+
+#include<iostream>
+#include<string.h>
+using namespace std;
+int b[4]={0,0,-1,1};
+int c[4]={1,-1,0,0};//bc来进行上下左右 
+int n,m,f1,f2,sx,sy;//地图的长宽 
+int sum=0; 
+int a[6][6]={0};
+void dfs(int s1,int s2)
+{
+	int ss1,ss2;
+	if(s1==f1&&s2==f2)
+	{
+		sum++;
+		return;
+	}
+	for(int i=0;i<=3;i++)
+	{
+		ss1=s1+b[i];
+		ss2=s2+c[i];
+		if(a[ss1][ss2]==0&&ss2<=m&&ss1<=n&&ss2>=1&&ss1>=1)//没走过并且没有障碍 
+	    {
+			a[ss1][ss2]=1;
+			dfs(ss1,ss2);
+			a[ss1][ss2]=0;
+		}
+	}
+	return;
+}
+int main()
+{
+	int x,y,t;
+    cin>>n>>m>>t;
+    cin>>sx>>sy>>f1>>f2;
+    for(int i=1;i<=t;i++)
+    {
+    	cin>>x>>y;
+    	a[x][y]=1; 
+	}
+	a[sx][sy]=1;//忘记标记起点
+	dfs(sx,sy);
+	cout<<sum;
+    return 0;
+} 

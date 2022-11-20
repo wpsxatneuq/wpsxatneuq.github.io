@@ -1,0 +1,64 @@
+实现一个双向链表即可，注意用一个index来标记最左边的人是谁
+
+
+#include <iostream>
+#include <algorithm>
+#include <string>
+#include<vector>
+int p=1;
+struct t
+{
+	int l,r;
+	int d=0;
+}T[100002];
+void adder(int i,int a,int b)
+{
+	if(b==0)
+	{
+		T[T[a].l].r=i;
+		T[i].l=T[a].l;
+		T[i].r=a;
+		T[a].l=i;
+		if(a==p)
+		{
+			p=i;
+		}
+	}
+	else
+	{
+		T[T[a].r].l=i;
+		T[i].r=T[a].r;
+		T[i].l=a;
+		T[a].r=i;
+	}
+}
+using namespace std;
+int main()
+{
+    int n;
+    cin>>n;
+    T[1].l=0;
+    T[1].r=0;
+    for(int i=2;i<=n;i++)
+    {
+    	int a,b;
+    	cin>>a>>b;
+    	adder(i,a,b);
+	}
+	int m;
+	cin>>m;
+	for(int i=1;i<=m;i++)
+	{
+		int a;
+		cin>>a;
+		T[a].d=1;
+	}
+	for(int i=p;i;i=T[i].r)
+	{
+		if(T[i].d==0)
+		{
+			cout<<i<<' ';
+		}
+	}
+    return 0;
+}

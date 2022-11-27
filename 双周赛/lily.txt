@@ -1,0 +1,47 @@
+枚举每一个格子，如果一个格子不是花，并且旁边两个不是花(可以是猫粮），那就放猫粮，O（n）即可。
+
+
+#include<iostream>
+using namespace std;
+int main()
+{
+    int n;
+    cin>>n;
+    int a[n+2];
+    a[0]=0,a[n+1]=0;
+    for(int i=1;i<=n;i++)
+    {
+        char b;
+        cin>>b;
+        if(b=='L')
+        {
+            a[i]=1;
+        }
+        else{
+            a[i]=0;
+        }
+    }
+    for(int i=1;i<=n;i++)
+    {
+        if(a[i-1]!=1&&a[i+1]!=1&&a[i]==0)
+        {
+            a[i]=2;
+        }
+    }
+    for(int i=1;i<=n;i++)
+    {
+        if(a[i]==0)
+        {
+            cout<<'.';
+        }
+        else if(a[i]==2)
+        {
+            cout<<'C';
+        }
+        else{
+            cout<<'L';
+        }
+    }
+    cout<<endl;
+    return 0;
+}

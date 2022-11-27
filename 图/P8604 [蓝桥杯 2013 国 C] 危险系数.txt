@@ -1,0 +1,67 @@
+dfs遍历每种通过的方案，然后遍历每个点，如果一个点的通过次数和总方案数一样，那他就是关键点。
+
+
+
+
+#include <bits/stdc++.h>
+using namespace std;
+bool vfs[1005];
+int n,cnt;
+int a[1005];
+vector<int>G[1005];
+void dfs(int u,int v)
+{
+	if(u==v)
+	{
+		cnt++;
+		for(int i=1;i<=n;i++)
+		{
+			if(vfs[i])
+			{
+				a[i]++;
+			}
+		}
+		return;
+	}
+	else
+	{
+		
+		for(int i=0;i<G[u].size();i++)
+		{
+			int next=G[u][i];
+			if(!vfs[next])
+			{
+				vfs[next]=true;
+				dfs(next,v) ;
+				vfs[next]=false;
+			} 
+		}
+	}
+}
+int main()
+{
+	int m;
+	cin>>n>>m;
+	for(int i=0;i<m;i++)
+	{
+		int x,y;
+		cin>>x>>y;
+		G[x].push_back(y);
+		G[y].push_back(x);
+	} 
+	int u,v;
+	cin>>u>>v;
+	vfs[u]=true;
+	dfs(u,v);
+	int sum=0;
+	for(int i=1;i<=n;i++)
+	{
+		if(a[i]==cnt)
+		{
+			sum++;
+		}
+	}
+	sum-=2;
+	cout<<sum;
+    return 0;
+}

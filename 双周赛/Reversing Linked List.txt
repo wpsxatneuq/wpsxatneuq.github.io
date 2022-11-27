@@ -1,0 +1,77 @@
+题目说用链表那就用链表
+每一次反转子链的时候，要把头head连到尾巴tail上直到原先的尾等于头就翻转完毕
+
+
+
+
+#include <stdio.h>
+#define MAXSIZE 100001
+typedef struct Node 
+{
+	int data; 
+	int next;  
+} Node;
+Node List[MAXSIZE];
+int Reverse(int fp,int K);
+int main()
+{
+	int fp,p,N,K; // fp 表示首地址，p表示地址，N表示结点数，K表示子链长度
+	scanf("%d %d %d",&fp,&N,&K);
+	for(int i = 0;i < N;i ++) {
+		scanf("%d",&p);
+		scanf("%d %d",&List[p].data,&List[p].next);
+	}
+	p = Reverse(fp,K);
+	while(List[p].next != -1)
+    {
+		printf("%05d %d %05d\n",p,List[p].data,List[p].next); 
+		p = List[p].next;
+	}
+	printf("%05d %d %d\n",p,List[p].data,List[p].next); 
+} 
+
+int Reverse(int fp,int K)
+{
+	// head指向子链的头结点，tail指向子链的尾结点，NHead指向反转后的链表的第一个结点 
+	int head = fp,tail = fp,NHead; // 先将head和tail都置于第一个结点处 
+	int k = K;
+	//将tail移动k - 1位到子链的尾结点
+	while(tail != -1 && k != 1) {
+		tail = List[tail].next;
+		k --;
+	}
+	k = K; // 更新k
+	if(tail != -1)	NHead = tail;// 第一个子链的尾结点就是反转后的链表的第一个结点
+	
+	/*下面进行反转子链操作*/
+	while(tail != -1)
+    {
+		int p = head; // 用p记录要移动的结点，解放出head，从而让head指向下一个head(移动一个结点后的新head)
+		while(head != tail)
+        {
+			head = List[p].next;
+			List[p].next = List[tail].next; // 衔接到下一个子链（此时衔接的是未反转的下一个链的链头） 
+			List[tail].next = p;
+			p = head; // 此时已经完成一个结点的移动操作，将p指向下一个要移动的结点 
+		}
+		// 此时已经完成了一个子链的反转操作，head = tail = p，均指向新子链的第一个结点		
+		while(k != 1)
+        { // 将p移动k - 1位指向新子链链尾，用来衔接下一个反转链链头（用来衔接下一个子链反转后的链头） 
+			p = List[p].next;
+			k --;
+		} 
+		/*接下来更新head和tail,让它们均指向下一个待反转子链的第一个结点*/ 
+		head = List[p].next;
+		tail = List[p].next;
+		k = K;// 更新k 
+		/*将tail移动k - 1位到子链的尾结点*/
+		while(tail != -1 && k != 1)
+        {
+			tail = List[tail].next;
+			k --;
+		}
+		k = K;// 更新k
+		if(tail != -1) 	List[p].next = tail;// 用来衔接上一个子链的链尾 
+	} 
+	return NHead;
+}

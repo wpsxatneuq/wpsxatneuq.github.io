@@ -1,0 +1,117 @@
+先找极值点，然后三个零点分别在负无穷，第一个极值点，第二个极值点，正无穷之间
+二分三次就可以。
+
+
+#include<iostream>
+#include<cmath>
+using namespace std;
+double a,b,c,d,p,q;
+double sanyuan(double A,double B,double C,double D,double x)
+{
+    return (A*x*x*x+B*x*x+C*x+D);
+}
+int check(double middle)
+{
+    if(sanyuan(a,b,c,d,middle)<0)return 1;
+    else if(sanyuan(a,b,c,d,middle)>0)
+    {
+        return 2;
+    }
+    else
+    {
+        return 0;
+    }
+}
+int main()
+{
+    int t;
+    cin>>t;
+    for(int i=1;i<=t;i++)
+    {
+        cin>>a>>b>>c>>d>>q>>p;
+        if(a<0)
+        {
+            a=-a,b=-b,c=-c,d=-d;
+        }
+        double x1=-1*(2*b+sqrt(4*b*b-12*a*c))/(6*a);
+        double x2=(-2*b+sqrt(4*b*b-12*a*c))/(6*a);
+            if(x1>x2)
+            {
+                double y;
+                y=x1;
+                x1=x2;
+                x2=y;
+            }
+            double l=q,r=x1;
+            while(l<=r)
+            {
+                double middle=(l+r)/2;
+                if(check(middle)==1)
+                {
+                    l=middle;
+                }
+                else if(check(middle)==2)
+                {
+                    r=middle;
+                }
+                else
+                {
+                    printf("%.6f ",middle);
+                    break;
+                }
+                if(abs(l-r)<0.0000001)
+                {
+                    printf("%.6f ",middle);
+                    break;
+                }
+            }
+            l=x1,r=x2;
+            while(l<=r)
+            {
+                double middle=(l+r)/2;
+                if(check(middle)==2)
+                {
+                    l=middle;
+                }
+                else if(check(middle)==1)
+                {
+                    r=middle;
+                }
+                else
+                {
+                    printf("%.6f ",middle);
+                    break;
+                }
+                if(abs(l-r)<0.0000001)
+                {
+                    printf("%.6f ",middle);
+                    break;
+                }
+            }
+            l=x2,r=p;
+            while(l<=r)
+            {
+                double middle=(l+r)/2;
+                if(check(middle)==2)
+                {
+                    r=middle;
+                }
+                else if(check(middle)==1)
+                {
+                    l=middle;
+                }
+                else
+                {
+                    printf("%.6f ",middle);
+                    break;
+                }
+                if(abs(l-r)<0.0000001)
+                {
+                    printf("%.6f",middle);
+                    break;
+                }
+            }
+        cout<<endl;
+        }
+    return 0;
+}

@@ -4,8 +4,9 @@
 #include<stdio.h>
 #include<math.h>
 int n; 
-void fun(int x[]){
-	int i;
+void fun(int x[])//这个代码最重要
+{//从遇到的第一位开始，若是0，将其变成1，然后结束for循环，得到一种解法
+	int i;////从第一位开始，若是1，将其变成0，然后继续循环，若再循环的时候遇到0，则将其变为1，结束循环。得到另一种解法。
 	for(i=0;i<10;i++)
 	{ 
 	   if(x[i]!=1)  

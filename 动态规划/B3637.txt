@@ -1,0 +1,31 @@
+感觉最难的是找递推数列，一开始找错了死活写不出动态转移方程
+一开始找的是d[i]为前i个字符的最长序列的长度，后来发现应该是d[i]为以第i个字符为结尾的最长上升子序列的长度
+#include <bits/stdc++.h>
+using namespace std;
+int main()
+{
+	int n;
+	cin>>n;
+	int a[n+1],d[n+1];
+	for(int i=1;i<=n;i++)
+	{
+		cin>>a[i];
+		d[i]=1;
+	} 
+	for(int i=2;i<=n;i++)
+	{	
+		for(int j=1;j<=i;j++)
+		{
+			if(a[i]>a[j])
+			{
+				d[i]=max(d[i],d[j]+1);
+			}
+		}	
+    }
+	int maxn=d[1];
+	for(int i=2;i<=n;i++)
+	{
+		maxn=max(maxn,d[i]);
+	}
+	cout<<maxn;
+}

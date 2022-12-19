@@ -1,5 +1,84 @@
-代码分为两个部分：
+代码主要分为两个部分：
 
-LCS 传统板子，求出答案字符串的长度，便于遍历使用。
+用动态规划求出最长子序列的长度，为下面的遍历提供数字。
 
-LCS 路径的遍历，非常基础。
+第二部分是用双指针来遍历两个字符串，开始用两个指针都指向最后的位置，然后根据动态规划的数组来进行遍历
+
+#include <bits/stdc++.h>
+using namespace std;
+int main()
+{
+	 string a,b;
+	 char A[3001];
+	 cin>>a>>b;
+	 int f=0;
+	 int d[a.length()][b.length()];
+	 for(int i=0;i<a.length();i++)
+	 {
+	 	if(b[0]==a[i])
+	 	{
+	 		d[i][0]=1;
+	 		f=1;
+		 }
+		 if(f==1)
+		 {
+		 	d[i][0]=1;
+		 }
+		 else
+		 {
+		 	d[i][0]=0;
+		 }
+	 }
+	 f=0;
+	  for(int i=0;i<b.length();i++)
+	 {
+	 	if(a[0]==b[i])
+	 	{
+	 		d[0][i]=1;
+	 		f=1;
+		}
+		if(f==1)
+		{
+			d[0][i]=1;
+		}
+		else
+		{
+			d[0][i]=0; 
+		}
+		
+	 }
+	 for(int i=1;i<a.length();i++)
+	 {
+	 	for(int j=1;j<b.length();j++)
+	 	{
+	 	   if(a[i]==b[j])
+	 	   {
+	 	  	d[i][j]=d[i-1][j-1]+1;
+		   }
+		   else
+		   {
+		   	d[i][j]=max(d[i-1][j],d[i][j-1]); 
+		   }
+		}
+	 }
+	int i = a.length()-1, j = b.length()-1;//简单的双指针
+	while(d[i][j] > 0&&i>=0&&j>=0)
+    {
+		if(a[i] == b[j])
+        {
+            A[d[i][j]]=a[i]; 
+            i--, j--;
+        }
+		else
+        {
+			if(d[i][j]==d[i-1][j]) i--;
+			else j--;
+		}
+	}
+	
+	for(int k=1;k<=d[a.length()-1][b.length()-1];k++)
+	{
+		cout<<A[k];
+	}
+	 return 0;
+}

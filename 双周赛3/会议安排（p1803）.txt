@@ -1,0 +1,49 @@
+两个会议之间只有三种可能，1.相离，那么两个会议我们都可以选。2.一个完全在另外一个里面，那么我们就选里面那个。3.两个相交，那么我们就选先结束的那个。
+观察发现，其实第二，第三都是选先结束的那个，所以其实只有两种情况。
+
+for 1,.....n;
+    读入每个会议的开始和结束时间。
+ 按照开始时间来进行升序排序。
+ 声明一个变量now来标记会议结束的时间，一个sum来记载方法数。
+ for 1，....n;
+   if（一个会议的开始时间大于now）
+     {
+     sum++；
+     now=这个会议的结束时间。
+     }
+     if（一个会议的结束时间<now）
+     {
+     now=这个会议的结束时间
+     }
+     
+     
+   #include<bits/stdc++.h>
+using namespace std;
+struct meet
+{
+	int s,e;
+ } a[1000001];
+ int n;
+ int now,sum;
+ bool cmp(meet a,meet b)
+{
+	return (a.s<b.s);
+}
+int main()
+{
+  cin>>n;
+ for(int i=1;i<=n;i++)
+  {
+ 	cin>>a[i].s>>a[i].e;
+	}  
+	sort(a+1,a+n+1,cmp);
+	for(int i=1;i<=n;i++)
+	{
+		if(a[i].s>=now)
+		{
+			now=a[i].e;
+			sum++;
+		}
+	 }
+	 cout<<sum; 
+}

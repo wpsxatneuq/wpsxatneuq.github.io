@@ -1,0 +1,54 @@
+
+
+#include<bits/stdc++.h>
+using namespace std;
+bool v[50000];
+int m[50000];
+int n;
+bool t=false;
+int next;
+void dfs(int now)
+{
+	if(m[now]==0)
+	{
+		t=true;
+		return;
+	}
+	
+		next=now+m[now];
+		if(!v[next]&&next>=0 &&next<n)
+		{
+			v[next]=true;
+			dfs(next);
+		}
+		next=now-m[now];
+		if(!v[next]&&next>=0 &&next<n)
+		{
+			v[next]=true;
+			dfs(next);
+		}
+		return;
+	
+	
+} 
+int main()
+{
+	int start;
+	cin>>n;
+	for(int i=0;i<n;i++)
+	{
+		cin>>m[i];
+	}
+	cin>>start;
+	v[start]=1;
+	dfs(start);
+	if(t)
+	{
+		cout<<"True";
+	}
+	else
+	{
+		cout<<"False";
+	}
+	return 0;
+}

@@ -1,0 +1,42 @@
+
+
+#include<bits/stdc++.h>
+using namespace std;
+int a[2100][2100];//地图
+int n,m;
+int maxx=0;//山的个数
+int doit(int x,int y)//条件：1.坐标合理 2.图a中值为0。  
+//不满足返回0 满足 在向上下左右探索，最后返回1
+{
+    if(x>n||y>m||x<1||y<1||a[x][y]==0)
+        return 0;
+    a[x][y]=0;
+    doit(x+1,y);
+    doit(x,y+1);
+    doit(x-1,y);
+    doit(x,y-1);
+    return 1;
+}
+int main()
+{
+    cin>>n>>m;
+    for(int i=1;i<=n;i++)
+    {
+        for(int j=1;j<=m;j++)
+        {
+            cin>>a[i][j];
+        }
+    }
+    for(int i=1; i<=n; i++)
+    {
+        for(int j=1;j<=m;j++)
+        {
+            if(doit(i,j)>0)//满足条件的点返回1，记入山的个数中
+            {
+                maxx++;
+            }
+        }
+    }
+    cout<<maxx;
+    return 0;
+}

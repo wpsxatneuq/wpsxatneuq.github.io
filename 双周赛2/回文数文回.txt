@@ -1,0 +1,44 @@
+#include<bits/stdc++.h>
+using namespace std;
+int a=0;
+void panduan(string ss)
+{
+   if（ss是回文字符串）
+   {
+   a=1；
+   }
+int main()
+{
+  string s;
+  cin>>s;
+  change
+  n=n/(10*10*10*10);
+  n=n-10000;
+  n+=a；
+  cout<<n;
+  
+  
+  
+  
+  
+#include<bits/stdc++.h>
+using namespace std;
+int n,ans,sum;
+int main(){
+	cin>>n;
+	for(int i1=1;i1<=9;i1++){
+		for(int i2=0;i2<=9;i2++){
+			for(int i3=0;i3<=9;i3++){
+				for(int i4=0;i4<=9;i4++){
+					for(int i5=0;i5<=9;i5++){
+						sum= i1*1e8 + i2*1e7 + i3*1e6 + i4*1e5 + i5*1e4 + i4*1e3 + i3*1e2 + i2*10 + i1;
+						if(sum<=n) ans++;
+					}
+				}
+			}
+		}
+	}
+	cout<<ans;
+	return 0;
+}
+  

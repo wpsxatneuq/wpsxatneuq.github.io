@@ -1,0 +1,22 @@
+显然第一个接水的人，要让所有人都等他，所以我们希望第一个人打水的时间最短，接下来以此类推。
+让接下来打水的人，都是剩下来的人里面打水最快的人
+{
+    int n;
+    cin>>n;
+    struct person a[n];
+    for(int i=0;i<n;i++)
+    {
+    	cin>>a[i].t;
+    	a[i].number=i+1;
+	}
+	sort(a,a+n,cmd);
+	double sum=0;
+	for(int i=0;i<n;i++)
+	{
+		cout<<a[i].number<<' ';
+		sum+=((a[i].t)*(n-1-i));
+	}
+	cout<<endl;
+	printf("%.2f",sum/n);
+    return 0;
+}

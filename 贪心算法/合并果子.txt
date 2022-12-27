@@ -1,0 +1,33 @@
+这道题好像是叫啥霍夫曼编码，是有模板的，每次合并的时候，把最小的两个合并就可以了。
+
+
+
+#include <bits/stdc++.h>
+using namespace std;
+int main()
+{
+    int n;
+    cin>>n;
+    priority_queue<int,vector<int>,greater<int> >q;
+	int sum=0; 
+    for(int i=1;i<=n;i++)
+    {
+    	int a;
+    	cin>>a;
+    	q.push(a);
+	}
+	int b;
+	while(q.size()>=2)
+	{
+		    b=0;
+			for(int i=1;i<=2;i++)
+			{
+				b+=(q.top());
+				q.pop();
+			}
+	        q.push(b);
+	        sum+=b;
+	}
+	cout<<sum;
+    return 0;
+}

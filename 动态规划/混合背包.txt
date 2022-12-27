@@ -1,0 +1,7 @@
+for i=1..N
+    if第i件物品是01背包
+        for v=V..0
+            f[v]=max{f[v],f[v-c[i]]+w[i]};
+    else if第i件物品是完全背包
+        for v=0..V
+            f[v]=max{f[v],f[v-c[i]]+w[i]};

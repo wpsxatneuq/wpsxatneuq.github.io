@@ -1,0 +1,173 @@
+
+//以下是用分治优化的代码（虽然不知道为什么，但是依次比较找最小值比分治找最小值要快，所以实际上是负优化，继续用分治只是为了帮助自己复习一下分治）
+#include<bits/stdc++.h>
+using namespace std;
+const int D=0x3f3f3f3f;
+int n,m;
+struct node
+{
+	int to,cost;
+};
+vector<node>a[100001];
+bool b[100001]; 
+int aa[100001];
+int findmax(int l,int r,int *dex)//分治求最小值 
+{
+	if(r==l)
+	{
+		*dex=l;
+		if(!b[r])
+		{
+			return aa[r];
+		}
+		return D;
+	}
+	if((r-l)==1)
+	{
+		if(b[r])
+		{
+			if(b[l])
+			{
+				*dex=l;
+				return D;
+			}
+			*dex=l;
+			return aa[l];
+		}
+		if(b[l])
+		{
+			*dex=r;
+			return aa[r];
+		}
+		if(aa[l]<aa[r])
+		{
+			*dex=l;
+			return aa[l];
+		}
+		else
+		{
+			*dex=r;
+			return aa[r];
+		}
+	}
+	int middle=(r+l)/2;
+	int max_left=findmax(l,middle,dex);
+	int ii=*dex;
+	int max_right=findmax(middle,r,dex);
+	int ii2=*dex;
+	if(max_left<max_right)
+    {
+    	*dex=ii;
+    	return max_left;
+	}
+	else
+	{
+		*dex=ii2;
+		return max_right;
+	}
+}
+int main()
+{
+	int p;
+	cin>>n>>m>>p;
+	for(int i=1;i<=m;i++)
+	{
+		int x,y,z;
+		cin>>x>>y>>z;
+		node d;
+		d.to=y;
+		d.cost=z;
+		a[x].push_back(d);
+	}
+	b[p]=true;
+	for(int i=1;i<=n;i++)
+	{
+		aa[i]=D;
+	}
+	aa[p]=0;
+	for(int i=0;i<a[p].size();i++)
+	{
+		aa[a[p][i].to]=a[p][i].cost;
+	}
+	int maxn;
+	for(int i=1;i<=n-1;i++)
+	{
+		int index=0;
+		maxn=findmax(1,n,&index);
+		b[index]=true;
+		for(int j=0;j<a[index].size();j++)
+		{
+			if(aa[a[index][j].to]>(a[index][j].cost+maxn))
+			{
+				aa[a[index][j].to]=a[index][j].cost+maxn;
+			}
+		}
+	}
+	for(int i=1;i<=n;i++)
+	{
+		cout<<aa[i]<<' ';
+	}
+}
+
+//不用分治的代码
+#include<bits/stdc++.h>
+using namespace std;
+const int D=0x3f3f3f3f;
+int n,m;
+struct node
+{
+	int to,cost;
+};
+vector<node>a[100001];
+bool b[100001]; 
+int aa[100001];
+int main()
+{
+	int p;
+	cin>>n>>m>>p;
+	for(int i=1;i<=m;i++)
+	{
+		int x,y,z;
+		cin>>x>>y>>z;
+		node d;
+		d.to=y;
+		d.cost=z;
+		a[x].push_back(d);
+	}
+	b[p]=true;
+	for(int i=1;i<=n;i++)
+	{
+		aa[i]=D;
+	}
+	aa[p]=0;
+	for(int i=0;i<a[p].size();i++)
+	{
+		aa[a[p][i].to]=a[p][i].cost;
+	}
+	int maxn=D;
+	for(int i=1;i<=n-1;i++)
+	{
+		int index=0,maxn=D;
+		for(int j=1;j<=n;j++)
+		{
+			cout<<aa[j];
+			if(!b[j]&&aa[j]<=maxn)
+			{
+				index=j;
+				maxn=aa[j];
+			}
+		}
+		b[index]=true;
+		for(int j=0;j<a[index].size();j++)
+		{
+			if(aa[a[index][j].to]>(a[index][j].cost+maxn))
+			{
+				aa[a[index][j].to]=a[index][j].cost+maxn;
+			}
+		}
+	}
+	for(int i=1;i<=n;i++)
+	{
+		cout<<aa[i]<<' ';
+	}
+}

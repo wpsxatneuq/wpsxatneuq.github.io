@@ -1,3 +1,77 @@
+迪科斯彻算法是基于贪心算法来求解某个特定点（称为源点）到其他各点的最短路径问题（只啥用于非负权图）
+它先将所有的点分为两部分，一部分是已经求出最短路径的（A），另外一部分是为求出最短路径的（B）。
+一开始A中只有源点（最短路径为0），之后我们用一个数组dis[]来表示当前各点到源点的距离，vis[]来划分AB，map[]表示地图。
+一开始将dis[]中所有的值都初始化为无穷大，再将dis（源点）初始化为0.选择A中最新加入的点（贪心），计算源点——>最新点——>B中的点的距离，并依次和dis[]比较，如果小的话就替代dis[]的值
+并且依次重复这个过程，直到B为空集。
+
+
+
+//这是用优先队列优化过代码
+#include<bits/stdc++.h>
+using namespace std;
+const int D=0x3f3f3f3f;
+int n,m;
+struct node
+{
+	int to,cost;
+	bool operator > (const node &e) const
+	{
+		return cost>e.cost;
+	}
+};
+vector<node>a[100001];
+priority_queue<node, vector<node>, greater<node> > q;
+bool b[100001]; 
+int aa[100001];
+int main()
+{
+	int p;
+	cin>>n>>m>>p;
+	for(int i=1;i<=m;i++)
+	{
+		int x,y,z;
+		cin>>x>>y>>z;
+		node d;
+		d.to=y;
+		d.cost=z;
+		a[x].push_back(d);
+	}
+	for(int i=1;i<=n;i++)
+	{
+		aa[i]=D;
+	}
+	aa[p]=0;
+	q.push(node{p,0});
+	while(!q.empty())
+	{
+		node u=q.top();
+		q.pop();
+		if(b[u.to]) continue;
+		b[u.to]=true;
+		for(int i=0;i<a[u.to].size();i++)
+		{
+			node e=a[u.to][i];
+			if(aa[e.to]>aa[u.to]+e.cost)
+			{
+				aa[e.to]=aa[u.to]+e.cost;
+				q.push(node{e.to,aa[e.to]});
+			}
+		}
+	 } 
+	for(int i=1;i<=n;i++)
+	{
+		cout<<aa[i]<<' ';
+	}
+}
+
+
+
+
+
+
+
+
+
 
 //以下是用分治优化的代码（虽然不知道为什么，但是依次比较找最小值比分治找最小值要快，所以实际上是负优化，继续用分治只是为了帮助自己复习一下分治）
 #include<bits/stdc++.h>

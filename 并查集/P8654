@@ -1,0 +1,38 @@
+只要先根据亲戚关系将集合合并，然后遍历整个数组，计算不同集合的数目，输出即可。
+#include<bits/stdc++.h>
+using namespace std;
+int find(int x,int a[])
+{
+	if(x==a[x])return x;
+	else return a[x]=find(a[x],a);
+}
+void hebin(int x,int y,int a[] )
+{
+	int f1=find(x,a),f2=find(y,a);
+	a[f1]=f2;
+}
+int main()
+{
+    int m,n;
+    cin>>m>>n;
+    int a[m*n+1];
+    int k=1;
+    for(int i=1;i<=m*n;i++)
+    {
+    	a[i]=k;
+    	k++;
+	}
+	cin>>k;
+	for(;k;k--)
+	{
+		int x,y;
+		cin>>x>>y;
+		hebin(x,y,a);
+	}
+	int sum=0;
+	for(int i=1;i<=n*m;i++)
+	{
+		if(a[i]==i)sum++;
+	}
+	cout<<sum;
+ } 

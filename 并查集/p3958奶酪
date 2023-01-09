@@ -1,0 +1,90 @@
+用的是并查集的做法，用一个o(n2)遍历数组，只要是联通的就放在同一个集合里
+再o(n2)遍历数组找到不同集合，找到每个集合最大的高度和最小的高度判断能否穿过
+#include<bits/stdc++.h>
+using namespace std;
+struct point
+{
+	int x,y,z;
+};//一个点
+long long pow1(int x)
+{
+	return 1ll*x*x;
+ } 
+long long distant(int x,int y,int z,int x1,int y1,int z1)//计算两个圆心的距离 
+{
+	return pow1(x-x1)+pow1(y-y1)+pow1(z-z1);
+}
+int find(int x,int a[]);//并查集的查找操作 
+void hebin(int x,int y,int a[],point mapp[],int r);//并查集的合并操作 
+int main()
+{
+    int t;
+    cin>>t;
+    while(t--)
+    {
+    	int n,h;
+		int r;
+    	cin>>n>>h>>r;
+    	int N=n;
+    	point mapp[n];
+    	int a[n];
+    	bool b[n];
+    	for(int i=0;i<n;i++)
+    	{
+    		a[i]=i;//并查集的初始化，每个点都是自己的组长 
+    		b[i]=false;
+		}
+    	while(n--)//输入点 
+    	{
+    		cin>>mapp[n].x;
+    		cin>>mapp[n].y;
+    		cin>>mapp[n].z;
+		}
+		for(int i=0;i<N;i++)
+		{
+		   if(a[i]!=i)continue;//如果一个点不是自己的组长说明已经被合并 
+		   for(int j=0;j<i;j++)
+		   { 
+		   	  if(i!=j)hebin(i,j,a,mapp,r);//合并两个集合 
+		   }	
+		}
+		bool k=false;
+		for(int i=0;i<N;i++)
+		{
+			int f=find(i,a);//记载i点的大哥 
+			if(!b[f])
+			{
+				int maxx=-1,minn=0x3f3f3f;
+				for(int j=0;j<N;j++)
+				{
+					if(find(j,a)==f)//和i点是一个集合 
+					{
+						maxx=max(maxx,mapp[j].z);
+						minn=min(minn,mapp[j].z);
+					}
+				}
+				if(maxx+r>=h&&minn<=r)//判断能否穿过奶酪 
+				{
+					cout<<"Yes"<<endl;
+					k=true;
+					break;
+				}
+				b[f]=true;
+			}
+		}
+		if(!k)cout<<"No"<<endl;
+	}
+} 
+int find(int x,int a[])
+{
+	if(x==a[x])return x;
+	return a[x]=find(a[x],a);
+}
+void hebin(int x,int y,int a[],point mapp[],int r)
+{
+	if(distant(mapp[x].x,mapp[x].y,mapp[x].z,mapp[y].x,mapp[y].y,mapp[y].z)<=(long long)4*r*r)
+	{
+		int f1=find(x,a); int f2=find(y,a);
+		a[f1]=f2;
+	}
+}

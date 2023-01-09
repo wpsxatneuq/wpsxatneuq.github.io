@@ -1,0 +1,36 @@
+感觉这题和并查集没什么关系，并且看了题解貌似如果考虑图的连通性还会做错
+
+用一个小学奥数学过的公式，如果只有两个奇点或者没有奇点那么图就可以一笔画完，否则就需要奇点数目/2的笔画数来画
+
+#include<bits/stdc++.h>
+using namespace std;
+
+int n,m,ans = 0;
+int a[1010];
+
+int main(){
+    
+	//cin>>n>>m;
+    scanf("%d %d",&n,&m);
+
+    for(int i = 1; i <= m; i++ ) {
+        int x,y;
+        //cin >> x >> y;
+        scanf("%d %d",&x,&y);
+        a[x]++;
+        a[y]++;
+    }
+    
+    for(int i = 1; i <= n; i++) {
+        if(a[i]&1 ) {
+            ans++;
+        }
+    }
+    if(ans == 0) {
+        cout << 1 << endl;
+    } else{
+        cout << ans/2 << endl;
+    }
+
+	return 0;
+}

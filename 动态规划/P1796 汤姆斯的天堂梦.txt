@@ -1,0 +1,34 @@
+一开始想了半天怎么存储这个数据结构，然后又想了半天怎么dp这个数据结构，看了题解才发现可以不存储数据，
+定义dp【a】【b】为到达等级为a编号为b处最短的距离，然后就简单了，md这都没写出来
+
+#include<bits/stdc++.h>
+using namespace std;
+int d[101][101];
+int main()
+{
+	int n;
+	cin>>n;
+	int i;
+	for(int iii=1;iii<=n;iii++)//等级为iii 
+	{
+		cin>>i;
+		for(int ii=1;ii<=i;ii++)//ii为等级为iii的编号 
+		{
+			int j,k;
+			d[iii][ii]=0x3f3f3f;
+			cin>>j;//等级为iii-1的编号 
+            while(j!=0)
+			{
+				cin>>k;//费用 
+				d[iii][ii]=min(d[iii][ii],d[iii-1][j]+k);
+				cin>>j;
+			}
+		}
+	}
+	int sum=0x3f3f3f;
+	for(int ii=1;ii<=i;ii++)
+	{
+		sum=min(sum,d[n][ii]);
+	}
+	cout<<sum;
+} 

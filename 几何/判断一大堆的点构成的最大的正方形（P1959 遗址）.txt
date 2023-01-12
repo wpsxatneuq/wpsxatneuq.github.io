@@ -1,1 +1,45 @@
+这题对我来说最大的难点就是想不到一个O（n2）的方法来枚举一个正方形
 
+洛谷的题解写的太好，我就copy了
+最简单的最容易思考到的方法： O(n^4)或 O(n^3)枚举四个顶点。
+
+但由于 n≤3000，肯定超时，复杂度肯定要控制在O(n^2)左右。
+
+O(n^2）意味着枚举两个点，我们来观察一下这两个点与另外两个点的位置关系。（也就是只要确认了两个点，那么另外两个点也就被确定下来了）
+
+
+#include <bits/stdc++.h>
+using namespace std;
+int mapp[5001][5001];
+int main()
+{
+	int n;
+	cin>>n;
+	int x[n],y[n];
+	for(int i=0;i<n;i++)
+	{
+		cin>>x[i]>>y[i];
+		mapp[x[i]][y[i]]=1;
+	}
+	int next_1_x,next_1_y,next_2_x,next_2_y;
+	int a,b;
+	int ans=0;
+	for(int i=0;i<n;i++)
+	{
+		for(int j=0;j<n;j++)
+		{
+			a=x[i]-x[j];
+			b=y[i]-y[j];
+			next_1_x=x[i]-b;
+			next_2_x=x[j]-b;
+			next_1_y=y[i]+a;
+			next_2_y=y[j]+a;
+			if(next_1_x<1||next_1_x>5000||next_1_y<1||next_1_y>5000||next_2_x<1||next_2_x>5000||next_2_y<1||next_2_y>5000)continue;
+			if(mapp[next_1_x][next_1_y]&&mapp[next_2_x][next_2_y])
+			{
+				ans=max(ans,a*a+b*b);
+			}
+		}
+	}
+	cout<<ans;
+}

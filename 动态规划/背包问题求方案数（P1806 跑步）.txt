@@ -1,0 +1,21 @@
+可以将这个问题转化为背包问题将第i个背包看作有i-1圈，背包容量看作是要跑的圈数
+之后的问题就转化为了求01背包问题的方案数
+将max改为求和即可
+#include<bits/stdc++.h>
+using namespace std;
+#define int long long
+int d[1001][1001];
+signed main()
+{
+	int n;
+	cin>>n;
+	d[0][0]=1;
+	for(int i=1;i<=n;i++)//第一维表示上一次跑的圈数
+	{
+		for(int j=0;j<=n;j++)//第二维表示要跑的圈数
+		{
+			d[i][j]+=(d[i-1][j]+d[i-1][j-i]);
+		}
+	}
+	cout<<d[n][n]-1;
+} 

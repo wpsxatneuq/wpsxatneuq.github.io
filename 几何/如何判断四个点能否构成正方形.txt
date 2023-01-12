@@ -5,3 +5,34 @@
 如果前四条边相等，后两条边相等，且后两条边的长度相等，且其中一条大于前面四条中的一条，则可以组成正方形。
 
 code：
+#include <bits/stdc++.h>
+using namespace std;
+int dis(int a1, int b1, int a2, int b2)
+{
+    return (a2 - a1) * (a2 - a1) + (b2 - b1) * (b2 - b1);
+}
+struct point
+{
+	int x,y;
+}a[4];
+int main()
+{
+	int d[6];
+    for(int i=1;i<=4;i++)
+    {
+    	cin>>a[i].x;
+    	cin>>a[i].y;
+	}
+	int k=0;
+	for(int i=1;i<=4;i++)
+	{
+		for(int j=i+1;j<=4;j++)
+		{
+			d[k]=dis(a[i].x,a[i].y,a[j].x,a[j].y);
+			k++;
+		}
+	}
+	sort(d,d+6);
+	if(d[0]==d[1]&&d[1]==d[2]&&d[2]==d[3]&&d[4]==d[5]&&d[4]>d[3])cout<<"true";
+    return 0;
+}

@@ -1,0 +1,55 @@
+这题卡了我很久，根据题意看出肯定是遍历全图
+每次push进队列的一个数据应该包含四个信息，到达的点的坐标，步数，所剩下的生命值
+一开始我对生命值的的看法搞错了，直接让当前处理的点的生命值自减1，然后再push，其实应该是把减1的生命值push
+
+接下来还有一点就是，一个点其实是可以被多次路过的，
+如果这样写的会tle和mle，所以其实还需要剪枝
+用一个数组来标记到达点时的生命值，如果生命值大于数组储存的话，可以再push，如果小于的话就没必要（因为bfs的特性，后到达的点步数一定比先到达的多）
+code：
+#include<bits/stdc++.h>
+using namespace std;
+struct point 
+{
+	int x,y;
+	int smingzhi;
+	int k;
+};
+int amp[101][101];
+int ampp[101][101];
+int  a[4]={0,0,-1,1};//x
+int b[4]={-1,1,0,0};//y
+signed main()
+{
+	int n,m;
+	cin>>n>>m;
+	int x,y;
+	int time=-1;
+	for(int i=1;i<=n;i++)
+	{
+		for(int j=1;j<=m;j++)
+		{
+			cin>>amp[i][j];
+			if(amp[i][j]==2)x=i,y=j;
+		} 
+	}
+	queue<point>q;
+	q.push({x,y,6,0});
+	int k=0;
+	while(!q.empty())
+	{
+		point Q=q.front();
+		q.pop();
+		for(int i=0;i<4;i++)
+		{
+			if(Q.smingzhi-1==0||amp[Q.x+a[i]][Q.y+b[i]]==0||amp[Q.x+a[i]][Q.y+b[i]]==2||ampp[Q.x+a[i]][Q.y+b[i]]>=Q.smingzhi-1)continue;
+			if(amp[Q.x+a[i]][Q.y+b[i]]==3)
+			{
+				cout<<Q.k+1;
+				return 0;
+			}
+			else if(amp[Q.x+a[i]][Q.y+b[i]]==4)q.push({Q.x+a[i],Q.y+b[i],6,Q.k+1}),ampp[Q.x+a[i]][Q.y+b[i]]=6;
+			else q.push({Q.x+a[i],Q.y+b[i],Q.smingzhi-1,Q.k+1}),ampp[Q.x+a[i]][Q.y+b[i]]=Q.smingzhi-1; 
+		}
+	}
+	cout<<-1;
+} 

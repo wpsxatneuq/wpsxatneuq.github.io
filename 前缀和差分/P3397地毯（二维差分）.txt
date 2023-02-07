@@ -1,5 +1,44 @@
 输入两个点，改变一个区间的值，很容易让人想到使用差分（但是为什么标签给的是前缀和）
 
-考虑使用二维差分
+考虑使用二维差分，m次输入是O(m*n),查询整个前缀和数组为O（n^2）
 
-
+#include <bits/stdc++.h>
+using namespace std;
+int d[1001][1001];
+int r[1001][1001];
+int main () 
+{
+	int n,m;
+	int x,y,a,b;
+	scanf("%d %d",&n,&m);
+	while(m--)
+	{
+		scanf("%d %d %d %d",&x,&y,&a,&b);
+		for(int i=x;i<=a;i++)
+		{
+			d[i][y]++;//这两段是二维差分的实现关键
+		}
+		for(int j=x;j<=a;j++)
+		{
+			d[j][b+1]--;//二维差分的实现关键
+		}
+	}
+	int sum=0;
+	for(int i=1;i<=n+1;i++)//注意是n+1
+	{
+		for(int j=1;j<=n+1;j++)//注意是n+1
+		{
+		   sum+=d[i][j];
+		   r[i][j]=sum;	
+		}
+	}
+	for(int i=1;i<=n;i++)
+	{
+		for(int j=1;j<=n;j++)
+		{
+			printf("%d ",r[i][j]);
+		}
+		printf("\n");
+	}
+	return 0;
+}
